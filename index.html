@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohamed Essam | Level 30 Artist</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="scene-container">
+        <!-- شاشة الـ Home -->
+        <div id="home-state" style="display: none;">
+            
+            <!-- الجزء العلوي (اللوجو والـ Health bar) -->
+            <div class="top-bar">
+                <img src="Images/home-screen/logo.png" alt="Logo" class="logo">
+                <img src="Images/home-screen/healthbar-home.png" alt="Health Bar" class="healthbar">
+            </div>
+
+            <!-- المحتوى الرئيسي (الشخصية والقائمة) -->
+            <div class="home-content">
+                
+                <!-- الجزء الشمال: الشخصية -->
+                <div class="character-section">
+                    <img src="Images/home-screen/character-card.png" alt="Character Portrait" class="character-card">
+                    <img src="Images/home-screen/Character name and level.png" alt="Name and Level" class="name-level">
+                </div>
+
+                <!-- الجزء اليمين: القائمة -->
+                <div class="menu-section">
+                    <!-- تعديل: قراءة صورة الكلمة الأصلية بدلاً من النص -->
+                    <img src="Images/home-screen/portfolioword.png" alt="Portfolio" class="portfolio-title-img">
+                    
+                    <div class="menu-buttons">
+                        <img src="Images/home-screen/character-lore.png" alt="Character Lore" class="menu-btn">
+                        <img src="Images/home-screen/inventory.png" alt="Inventory" class="menu-btn">
+                        <img src="Images/home-screen/stats.png" alt="Stats" class="menu-btn">
+                        <img src="Images/home-screen/contact.png" alt="Contact" class="menu-btn">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        </div>
+        <div class="parallax-clouds"></div>
+        <div class="parallax-mountains"></div>
+
+        <div id="loading-state">
+            <div class="modal-wrapper" id="modal-box">
+                <img src="Images/loading-screen/modal-window.png" alt="Loading Box" class="modal-bg">
+                
+               <div class="progress-container">
+    <div class="progress-bar"></div>
+    <div class="scanlines"></div>
+</div>
+                
+                <div class="loading-text">100%</div>
+            </div>
+        </div>
+
+        <div id="start-state" style="display: none;">
+            <img src="Images/loading-screen/start-button.png" alt="Start Button" id="start-btn">
+        </div>
+
+    </div>
+
+    <script>
+    // 1. كود العداد المئوي
+    const loadingText = document.querySelector('.loading-text');
+    let percent = 0;
+    
+    // الشريط بياخد 4 ثواني وبيتحرك في 15 خطوة.. هنخلي العداد يواكب نفس السرعة
+    const stepTime = 4000 / 15; 
+    
+    const countInterval = setInterval(() => {
+        percent += (100 / 15);
+        if (percent >= 100) {
+            percent = 100;
+            clearInterval(countInterval);
+        }
+        // تحديث الرقم في الشاشة
+        loadingText.innerText = Math.round(percent) + "%";
+    }, stepTime);
+
+    // 2. كود اختفاء النافذة وظهور زرار ستارت
+    setTimeout(() => {
+        const modalBox = document.getElementById('modal-box');
+        
+        // شغل أنيميشن الاختفاء المتقطع للنافذة
+        modalBox.style.animation = "pixelPopOut 0.2s steps(2) forwards";
+        
+        // بعد الاختفاء مباشرة (200 ملي ثانية)، اخفي الحاوية واظهر زر البداية
+        setTimeout(() => {
+            document.getElementById('loading-state').style.display = 'none';
+            document.getElementById('start-state').style.display = 'block';
+        }, 200);
+
+    }, 4000); // بيشتغل بعد 4 ثواني (وقت التحميل)
+
+    // 3. عند الضغط على زر البداية
+    document.getElementById('start-btn').addEventListener('click', () => {
+        // إخفاء شاشة الـ Start
+        document.getElementById('start-state').style.display = 'none';
+        
+        // إظهار شاشة الـ Home مع تشغيل تأثير الظهور التدريجي
+        const homeState = document.getElementById('home-state');
+        homeState.style.display = 'flex'; // استخدمنا flex عشان الرصة تظبط
+        homeState.style.animation = "fadeIn 1s forwards";
+    });
+</script>
+</body>
+</html>
